@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
     try {
       const data = await apiFetch('/api/auth/me')
       setDoctor(data.doctor)
-    } catch (err) {
+    } catch {
       setDoctor(null)
     } finally {
       setLoading(false)
@@ -25,19 +25,38 @@ export function AuthProvider({ children }) {
   async function login(email, password) {
     const data = await apiFetch('/api/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({
+        email,
+        password
+      })
     })
+
     setDoctor(data.doctor)
+
     return data.doctor
   }
 
   async function logout() {
-    await apiFetch('/api/auth/logout', { method: 'POST' })
-    setDoctor(null)
+    try {
+      await apiFetch('/api/auth/logout', {
+        method: 'POST'
+      })
+    } catch (err) {
+      console.warn('Logout request failed:', err.message)
+    } finally {
+      setDoctor(null)
+    }
   }
 
   return (
-    <AuthContext.Provider value={{ doctor, loading, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        doctor,
+        loading,
+        login,
+        logout
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

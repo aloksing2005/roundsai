@@ -32,6 +32,9 @@ const prescriptionRoutes = require('./routes/prescriptions');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust reverse proxy (Render, Cloudflare, Heroku, AWS ELB, etc.)
+app.set('trust proxy', 1);
+
 // Allowed frontend origins.
 // Keep localhost for development and allow the deployed frontend when configured.
 const allowedOrigins = [
@@ -40,7 +43,15 @@ const allowedOrigins = [
 ];
 
 if (process.env.CLIENT_URL) {
-  allowedOrigins.push(process.env.CLIENT_URL.replace(/\/$/, ''));
+  const clientUrls = process.env.CLIENT_URL.split(',')
+    .map(url => url.trim().replace(/\/$/, ''))
+    .filter(Boolean);
+
+  for (const url of clientUrls) {
+    if (!allowedOrigins.includes(url)) {
+      allowedOrigins.push(url);
+    }
+  }
 }
 
 // Security + performance middleware
