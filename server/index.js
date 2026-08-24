@@ -89,6 +89,14 @@ app.use(
 app.use(express.json({ limit: '100kb' }));
 app.use(cookieParser());
 
+// Root status check
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    message: 'RoundsAI API is live and running!'
+  });
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.status(200).json({
