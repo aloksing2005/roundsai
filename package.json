@@ -1,0 +1,10 @@
+{
+  "name": "roundsai-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "cd server && npm install",
+    "start": "cd server && node index.js",
+    "dev": "cd server && npm run dev"
+  }
+}
