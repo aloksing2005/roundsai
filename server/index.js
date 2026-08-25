@@ -39,7 +39,9 @@ app.use(compression());
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
+    const normalizedOrigin = origin.replace(/\/+$/, '');
+    const isAllowed = allowedOrigins.some(allowed => allowed.replace(/\/+$/, '') === normalizedOrigin);
+    if (isAllowed) {
       return callback(null, true);
     }
     console.warn(`CORS blocked request from origin: ${origin}`);
