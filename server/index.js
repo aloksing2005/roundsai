@@ -24,10 +24,10 @@ const prescriptionRoutes = require('./routes/prescriptions');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// --- CORS: allow localhost (dev) always, plus any production origins from env ---
-// FRONTEND_URLS should be a comma-separated list, e.g.:
+// --- CORS: allow localhost (dev) always, plus CLIENT_URL from env (production frontend) ---
+// CLIENT_URL can be a single URL or comma-separated list, e.g.:
 // https://roundsai.vercel.app,https://roundsai-git-main-yourname.vercel.app
-const envOrigins = (process.env.FRONTEND_URLS || '')
+const envOrigins = (process.env.CLIENT_URL || '')
   .split(',')
   .map(url => url.trim())
   .filter(Boolean);
@@ -40,7 +40,6 @@ app.use(helmet({
 app.use(compression());
 app.use(cors({
   origin: function (origin, callback) {
-    // allow requests with no origin (like curl, Postman, server-to-server health checks)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
