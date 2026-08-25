@@ -2,9 +2,9 @@
 
 **An AI co-pilot for the doctor's day** — patient context, a live appointment queue, and digital prescriptions, in one focused workspace.
 
-🔗 **Live App:** https://roundsai-tau.vercel.app
-🔗 **API:** https://roundsai-api.onrender.com
-📁 **Repo:** https://github.com/aloksing2005/roundsai
+🔗 **Live App:** https://roundsai-tau.vercel.app  
+🔗 **API:** https://roundsai-api.onrender.com  
+📁 **Repo:** https://github.com/aloksing2005/roundsai  
 
 Built as a 10-day capstone for the **AB Talks 60-Day Claude AI Challenge**.
 
@@ -20,9 +20,9 @@ RoundsAI is a doctor-only workflow platform — not a hospital management system
 - Writing and issuing a prescription without leaving the app
 
 ## Demo Login
-Email: dr.mehta@roundsai.demo
-Password: roundsai123
 
+Email: `dr.mehta@roundsai.demo`  
+Password: `roundsai123`  
 
 > Note: the backend runs on Render's free tier, which spins down after inactivity. The first request after a period of idle time may take 30–60 seconds to respond — this is expected, not a bug.
 
@@ -51,21 +51,23 @@ No patient-facing accounts or self-service intake forms, no real-time multi-devi
 | Hosting | Vercel (frontend) · Render (backend) · MongoDB Atlas (database) |
 
 ## Project Structure
-roundsai/
-├── client/ React frontend (Vite + Tailwind)
-│ └── src/
-│ ├── pages/ Route-level pages (Login, Dashboard, Patients, etc.)
-│ ├── components/ Shared UI components
-│ ├── context/ AuthContext (session state)
-│ └── config/ API client wrapper
-├── server/ Express backend
-│ ├── models/ Mongoose schemas (Doctor, Patient, Visit, Prescription, IntakeForm)
-│ ├── routes/ API route handlers
-│ ├── middleware/ Auth middleware
-│ ├── services/ AI summary logic, PDF generation
-│ └── seed.js Seeds one doctor + 3 demo patients with history
-└── docs/ Architecture, schema, and API design documentation
 
+```text
+roundsai/
+├── client/          React frontend (Vite + Tailwind)
+│   └── src/
+│       ├── pages/       Route-level pages (Login, Dashboard, Patients, etc.)
+│       ├── components/  Shared UI components
+│       ├── context/     AuthContext (session state)
+│       └── config/      API client wrapper
+├── server/          Express backend
+│   ├── models/      Mongoose schemas (Doctor, Patient, Visit, Prescription, IntakeForm)
+│   ├── routes/      API route handlers
+│   ├── middleware/  Auth middleware
+│   ├── services/    AI summary logic, PDF generation
+│   └── seed.js      Seeds one doctor + 3 demo patients with history
+└── docs/            Architecture, schema, and API design documentation
+```
 
 ## Running Locally
 
@@ -87,14 +89,14 @@ npm install
 ```
 
 Create `server/.env` (see `server/.env.example`):
-
+```env
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_random_secret_string
 ANTHROPIC_API_KEY=your_claude_api_key # optional — fallback summary works without it
 PORT=5000
 NODE_ENV=development
 CLIENT_URL=http://localhost:5173
-
+```
 
 Seed the database (creates the demo doctor + 3 patients):
 ```bash
@@ -111,7 +113,7 @@ In a second terminal:
 ```bash
 cd client
 npm install
-npm run dev
+npm run dev 
 ```
 
 Open **http://localhost:5173**.
