@@ -2,14 +2,21 @@ export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localho
 
 export async function apiFetch(path, options = {}) {
   let res;
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(options.headers || {})
+  };
+
+  const storedToken = localStorage.getItem('roundsai_token');
+  if (storedToken && !headers['Authorization']) {
+    headers['Authorization'] = `Bearer ${storedToken}`;
+  }
+
   try {
     res = await fetch(`${API_BASE_URL}${path}`, {
       ...options,
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.headers || {})
-      }
+      headers
     });
   } catch (networkErr) {
     throw new Error('Cannot reach the server. Please check your connection and try again.');

@@ -1,10 +1,17 @@
 const jwt = require('jsonwebtoken');
 
 function requireAuth(req, res, next) {
-  const token = req.cookies?.token;
+  let token = req.cookies?.token;
+
+  if (!token && req.headers.authorization) {
+    const authHeader = req.headers.authorization;
+    if (authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7).trim();
+    }
+  }
 
   if (!token) {
-    console.warn(`[Auth Check Failed] No token cookie present for path: ${req.path}`);
+    console.warn(`[Auth Check Failed] No token present (cookie or Bearer header) for path: ${req.path}`);
     return res.status(401).json({
       error: 'Unauthorized'
     });

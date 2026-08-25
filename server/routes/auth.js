@@ -61,7 +61,8 @@ router.post('/login', loginLimiter, async (req, res) => {
     res.cookie('token', token, getCookieOptions());
 
     res.status(200).json({
-      doctor: { id: doctor._id, name: doctor.name, email: doctor.email }
+      doctor: { id: doctor._id, name: doctor.name, email: doctor.email },
+      token
     });
   } catch (err) {
     console.error('Login error:', err);

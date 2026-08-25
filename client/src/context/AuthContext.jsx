@@ -16,6 +16,7 @@ export function AuthProvider({ children }) {
       const data = await apiFetch('/api/auth/me')
       setDoctor(data.doctor)
     } catch {
+      localStorage.removeItem('roundsai_token')
       setDoctor(null)
     } finally {
       setLoading(false)
@@ -31,6 +32,10 @@ export function AuthProvider({ children }) {
       })
     })
 
+    if (data.token) {
+      localStorage.setItem('roundsai_token', data.token)
+    }
+
     setDoctor(data.doctor)
 
     return data.doctor
@@ -44,6 +49,7 @@ export function AuthProvider({ children }) {
     } catch (err) {
       console.warn('Logout request failed:', err.message)
     } finally {
+      localStorage.removeItem('roundsai_token')
       setDoctor(null)
     }
   }
