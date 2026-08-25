@@ -7,11 +7,6 @@ export async function apiFetch(path, options = {}) {
     ...(options.headers || {})
   };
 
-  const storedToken = localStorage.getItem('roundsai_token');
-  if (storedToken && !headers['Authorization']) {
-    headers['Authorization'] = `Bearer ${storedToken}`;
-  }
-
   try {
     res = await fetch(`${API_BASE_URL}${path}`, {
       ...options,

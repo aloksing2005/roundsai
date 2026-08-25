@@ -16,7 +16,6 @@ export function AuthProvider({ children }) {
       const data = await apiFetch('/api/auth/me')
       setDoctor(data.doctor)
     } catch {
-      localStorage.removeItem('roundsai_token')
       setDoctor(null)
     } finally {
       setLoading(false)
@@ -26,43 +25,24 @@ export function AuthProvider({ children }) {
   async function login(email, password) {
     const data = await apiFetch('/api/auth/login', {
       method: 'POST',
-      body: JSON.stringify({
-        email,
-        password
-      })
+      body: JSON.stringify({ email, password })
     })
-
-    if (data.token) {
-      localStorage.setItem('roundsai_token', data.token)
-    }
-
     setDoctor(data.doctor)
-
     return data.doctor
   }
 
   async function logout() {
     try {
-      await apiFetch('/api/auth/logout', {
-        method: 'POST'
-      })
+      await apiFetch('/api/auth/logout', { method: 'POST' })
     } catch (err) {
       console.warn('Logout request failed:', err.message)
     } finally {
-      localStorage.removeItem('roundsai_token')
       setDoctor(null)
     }
   }
 
   return (
-    <AuthContext.Provider
-      value={{
-        doctor,
-        loading,
-        login,
-        logout
-      }}
-    >
+    <AuthContext.Provider value={{ doctor, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   )
